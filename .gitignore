@@ -1,3 +1,5 @@
 .env*
 tmp/*
 working/*
+.bundle
+.DS_Store

@@ -1,8 +1,22 @@
 @echo off
 cd c:/libro-agent
 
-@echo Installing Ruby...
-call vendor\rubyinstaller-2.3.1.exe /verysilent /tasks="modpath"
+rem check if the ruby executable is present
+where /q ruby
+IF ERRORLEVEL 1 (
+  @echo Installing Ruby...
+  call vendor\rubyinstaller-2.3.1.exe /verysilent /tasks="modpath"
+) ELSE (
+  @echo Uninstalling Libro Sync service...
+  call ruby lib/unregister.rb
+)
+
+rem check if the git executable is present
+where /q git
+IF ERRORLEVEL 1 (
+  @echo Installing Git...
+  call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
+)
 
 @echo Updating RubyGems...
 call gem install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
