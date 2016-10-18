@@ -10,5 +10,8 @@ IF ERRORLEVEL 1 (
   call git pull --force
 )
 
+@echo Reinstalling Libro Sync service...
+call ruby lib/register.rb
+
 @echo done!
 timeout 10
