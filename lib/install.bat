@@ -1,3 +1,5 @@
+setlocal enabledelayedexpansion
+
 @echo off
 cd c:/libro-agent
 
