@@ -17,6 +17,9 @@ IF ERRORLEVEL 1 (
   @echo Installing Git...
   call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
 )
+@echo Fetching the latest code...
+call git checkout .
+call git pull --force
 
 @echo Updating RubyGems...
 call gem install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
