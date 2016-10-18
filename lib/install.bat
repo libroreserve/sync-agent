@@ -42,6 +42,7 @@ if exist CONFIGURATION (
   @echo WORKING_DIR=%WORKING_DIR%>CONFIGURATION
   @echo LIBRO_API_TOKEN=%LIBRO_API_TOKEN%>>CONFIGURATION
   @echo RESTAURANT_CODE=%RESTAURANT_CODE%>>CONFIGURATION
+  call git config user.email %RESTAURANT_CODE%@accounts.libroreserve.com
 )
 
 @echo Installing Libro Sync service...
