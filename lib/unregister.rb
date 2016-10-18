@@ -10,4 +10,4 @@ begin
 rescue
 end
 
-Service.delete(SERVICE)
+Service.delete(SERVICE) if Service.exists?(SERVICE)
