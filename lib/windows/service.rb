@@ -7,6 +7,7 @@ include Win32
 
 Dotenv.load(File.expand_path('../../CONFIGURATION',  __FILE__))
 ENV['HANDLER'] = 'portable'
+ENV['API_ENDPOINT'] ||= 'https://api.libroreserve.com/inbound/maitre_d/status'
 
 if [nil, ''].include? ENV['WORKING_DIR']
   ENV['WORKING_DIR'] = `echo %cd%\\working`.chomp
@@ -25,7 +26,7 @@ begin
     def service_main
       LOGGER.info 'Service is running'
 
-      agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml/, 'http://inbound.local.libroreserve.com:3000/whatever', logger: LOGGER, token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'])
+      agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml/, ENV['API_ENDPOINT'], logger: LOGGER, token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'])
       agent.watch!
 
       # keep process in sleep while waiting for new files
