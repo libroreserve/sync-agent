@@ -60,7 +60,7 @@ class Agent
       @logger.info("File processing: #{file_path}")
       push(parse(file_path))
 
-      File.delete(file_path)
+      File.delete(file_path) if File.exists?(file_path)
       @logger.info("File deleted: #{file_path}")
 
     rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Net::ReadTimeout => e
