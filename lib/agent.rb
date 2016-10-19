@@ -73,8 +73,6 @@ class Agent
       File.delete(file_path) if File.exists?(file_path)
       @logger.info("File deleted: #{file_path}")
 
-      @@processing.delete(file_path)
-
     rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Net::ReadTimeout => e
       @logger.error("Could not connect to Libro server: #{e.message}")
     rescue Faraday::ResourceNotFound => e
@@ -83,6 +81,8 @@ class Agent
       @logger.error("Client error: #{e.message}")
     # rescue Exception => e
     #   @logger.error("Error parsing file: #{file_path}")
+    ensure
+      @@processing.delete(file_path)
     end
 
     def parse(file_path)
