@@ -28,6 +28,8 @@ class Agent
     end
 
     @endpoint.authorization(:Token, 'Auth-Token': options[:token], 'Restaurant-Code': options[:code])
+
+    @logger.info("Agent initialized; directory: #{directory}; pattern: #{pattern}; endpoint: #{endpoint}; ; options: #{options};")
   end
 
   def watch!
