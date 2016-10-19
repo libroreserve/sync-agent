@@ -25,7 +25,7 @@ class Agent
       faraday.use Faraday::Response::RaiseError # raise http errors
     end
 
-    @endpoint.authorization(:Token, 'Auth-Token': options[:token], 'Restaurant-Code': options[:token])
+    @endpoint.authorization(:Token, 'Auth-Token': options[:token], 'Restaurant-Code': options[:code])
   end
 
   def watch!
@@ -63,10 +63,12 @@ class Agent
       File.delete(file_path)
       @logger.info("File deleted: #{file_path}")
 
+    rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Net::ReadTimeout => e
+      @logger.error("Could not connect to Libro server: #{e.message}")
     rescue Faraday::ResourceNotFound => e
-      @logger.error("Specified endpoin was not found on Libro server")
-    rescue Faraday::ConnectionFailed, Faraday::TimeoutError => e
-      @logger.error("Could not connect to Libro server")
+      @logger.error("Specified endpoint was not found on Libro server")
+    rescue Faraday::ClientError => e
+      @logger.error("Client error: #{e.message}")
     # rescue Exception => e
     #   @logger.error("Error parsing file: #{file_path}")
     end
