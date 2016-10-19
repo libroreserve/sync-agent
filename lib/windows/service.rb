@@ -5,7 +5,7 @@ require_relative '../agent'
 
 include Win32
 
-Dotenv.load(File.expand_path('../../CONFIGURATION',  __FILE__))
+Dotenv.load(File.expand_path('../../../CONFIGURATION',  __FILE__))
 ENV['HANDLER'] = 'portable'
 ENV['API_ENDPOINT'] ||= 'https://api.libroreserve.com/inbound/maitre_d/status'
 
