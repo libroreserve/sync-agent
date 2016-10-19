@@ -27,7 +27,8 @@ class Agent
       faraday.use Faraday::Response::RaiseError # raise http errors
     end
 
-    @endpoint.authorization(:Token, 'Auth-Token': options[:token], 'Restaurant-Code': options[:code])
+    # @endpoint.authorization(:Token, 'Auth-Token': options[:token], 'Restaurant-Code': options[:code])
+    @endpoint.headers['Authorization'] = "Token Auth-Token=\"#{options[:token]}\", Restaurant-Code=\"#{options[:code]}\""
 
     @logger.info("Agent initialized; directory: #{directory}; pattern: #{pattern}; endpoint: #{endpoint}; options: #{options};")
   end
