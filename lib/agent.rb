@@ -5,6 +5,8 @@ require 'active_support/core_ext/hash/conversions'
 require 'json'
 
 class Agent
+  @@processing = []
+
   def initialize(directory, pattern, endpoint, options={})
     @directory = directory
     @pattern = pattern
@@ -57,11 +59,21 @@ class Agent
 
   private
     def process(file_path)
+      if @@processing.include?(file_path)
+        # file is already in process; abort
+        # this senario happens because of a race between the timed loop and listener
+        return
+      end
+
+      @@processing << file_path
+
       @logger.info("File processing: #{file_path}")
       push(parse(file_path))
 
       File.delete(file_path) if File.exists?(file_path)
       @logger.info("File deleted: #{file_path}")
+
+      @@processing.delete(file_path)
 
     rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Net::ReadTimeout => e
       @logger.error("Could not connect to Libro server: #{e.message}")
