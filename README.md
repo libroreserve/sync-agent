@@ -9,15 +9,16 @@
 
 ### What the script does
 
-The scripts installs Ruby, RubyGems and third party dependencies (gems) required by the agent.
-
-The script also installs **Git** which is used to upgrade the agent.
-
-On it’s first run, the install script will generate a `c:\libro-sync-agent\CONFIGURATION` file.
+1. Installs Ruby, RubyGems and third party dependencies (gems) required by the agent
+2. Installs **Git**, used to upgrade the agent
+3. Generates a `c:\libro-sync-agent\CONFIGURATION` file
+4. Installs the latest release of the agent
+5. Configures the Windows service running the agent
+6. Starts the Windows service
 
 ### Configuration
 
-After the initial install, you will need to edit the *CONFIGURATION* manually and *restart* the service if you need to update one of the parameters; *UPGRADE* or *INSTALL* scripts will restart the service.
+After the initial install, you will need to edit the *CONFIGURATION* manually and *restart* the Windows service if you need to update one of the parameters; *UPGRADE* or *INSTALL* scripts will restart the Windows service.
 
 Here is a list of supported parameters:
 
