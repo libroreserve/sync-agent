@@ -7,7 +7,7 @@ IF ERRORLEVEL 1 (
   @echo git is missing; run INSTALL first
 ) ELSE (
   call git checkout .
-  call git pull --force
+  call git pull origin master --force
 )
 
 @echo Reinstalling Libro Sync service...

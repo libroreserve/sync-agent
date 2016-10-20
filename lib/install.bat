@@ -1,6 +1,7 @@
+@echo off
+
 setlocal enabledelayedexpansion
 
-@echo off
 cd c:/libro-sync-agent
 
 rem check if the ruby executable is present
@@ -19,9 +20,17 @@ IF ERRORLEVEL 1 (
   @echo Installing Git...
   call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
 )
+
 @echo Fetching the latest code...
-call git checkout .
-call git pull --force
+IF exist .git (
+  call git checkout .
+  call git pull origin master --force
+) ELSE (
+  call git init
+  call git remote add origin https://jimdurand@bitbucket.org/jimdurand/libro-sync-agent.git
+  call git fetch origin master
+  call git reset --hard origin/master
+)
 
 @echo Updating RubyGems...
 call gem install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
@@ -32,9 +41,9 @@ call gem uninstall rubygems-update -x
 call gem install bundler --no-rdoc --no-ri
 call bundle install --without development test
 
-if exist CONFIGURATION (
+IF exist CONFIGURATION (
   @echo Configuration file exists; Skipping configuration...
-) else (
+) ELSE (
   @echo Configuring Libro Sync service...
   call set /P WORKING_DIR= "File path to watch [files]: "
   call set /P LIBRO_API_TOKEN= "Libro API token: "
