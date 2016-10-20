@@ -2,10 +2,10 @@
 
 ## Installation
 
-1. [Download the latest release](https://bitbucket.org/jimdurand/libro-sync-agent/get/master.zip)
-2. Extract the files to `c:\libro-sync-agent`
-3. Execute the *INSTALL* script
-    * The script requires administrator privileges so you will need to approve when prompted by the OS
+1. [Download the install script](https://bitbucket.org/jimdurand/libro-sync-agent/downloads/install.bat)
+2. Execute the script **as an administrator**
+    * Right-click > Run as an administrator
+3. That’s it!
 
 ### What the script does
 
