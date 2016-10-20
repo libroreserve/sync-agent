@@ -31,7 +31,9 @@ begin
 
       # keep process in sleep while waiting for new files
       while running?
-        agent.process!
+        if state != SERVICE_PAUSED
+          agent.process!
+        end
         sleep 30
       end
     rescue Exception => e
