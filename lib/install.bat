@@ -14,8 +14,10 @@ IF ERRORLEVEL 1 (
   @echo Installing Ruby...
   call vendor\rubyinstaller-2.3.1.exe /verysilent /tasks="modpath"
 ) ELSE (
-  @echo Uninstalling Libro Sync service...
-  call ruby lib/unregister.rb
+  IF exist lib/unregister.rb (
+    @echo Uninstalling Libro Sync service...
+    call ruby lib/unregister.rb
+  )
 )
 
 rem check if the git executable is present
