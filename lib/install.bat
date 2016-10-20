@@ -2,7 +2,11 @@
 
 setlocal enabledelayedexpansion
 
-cd c:/libro-sync-agent
+IF NOT exist c:\libro-sync-agent (
+  mkdir c:\libro-sync-agent
+)
+
+cd c:\libro-sync-agent
 
 rem check if the ruby executable is present
 where /q ruby
@@ -60,4 +64,4 @@ IF exist CONFIGURATION (
 call ruby lib/register.rb
 
 @echo done!
-pause
+timeout 30
