@@ -3,7 +3,7 @@
 ## Installation
 
 1. [Download the latest release](https://bitbucket.org/jimdurand/libro-sync-agent/get/master.zip)
-2. Extract the files to `c:\libro-agent`
+2. Extract the files to `c:\libro-sync-agent`
 3. Execute the *INSTALL* script
     * The script requires administrator privileges so you will need to approve when prompted by the OS
 
@@ -23,4 +23,4 @@ In theory, you shouldn't need to use the *UNINSTALL* & *UPGRADE* scripts but if 
 3. Executing the *UPGRADE* script
 4. Executing the *INSTALL* script
 
-If you’re still having issues, [report in a critical issue](https://bitbucket.org/jimdurand/libro-sync-agent/issues/new) and **attach the log file** under `c:\libro-agent\tmp`
+If you’re still having issues, [report in a critical issue](https://bitbucket.org/jimdurand/libro-sync-agent/issues/new) and **attach the log file** under `c:\libro-sync-agent\tmp`

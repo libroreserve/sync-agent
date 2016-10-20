@@ -1,5 +1,5 @@
 @echo off
-cd c:/libro-agent
+cd c:/libro-sync-agent
 
 rem check if the git executable is present
 where /q git

@@ -3,7 +3,7 @@ require 'win32/service'
 
 include Win32
 
-SERVICE = 'libro-agent'
+SERVICE = 'libro-sync-agent'
 
 
 # stop and delete the service if it already exists

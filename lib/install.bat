@@ -1,7 +1,7 @@
 setlocal enabledelayedexpansion
 
 @echo off
-cd c:/libro-agent
+cd c:/libro-sync-agent
 
 rem check if the ruby executable is present
 where /q ruby
