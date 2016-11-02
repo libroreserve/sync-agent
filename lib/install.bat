@@ -36,14 +36,6 @@ IF ERRORLEVEL 1 (
 )
 
 
-IF NOT exist CONFIGURATION (
-  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
-  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
-  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
-  call git config user.email !RESTAURANT_CODE!@accounts.libroreserve.com
-)
-
-
 @echo Fetching the latest code...
 IF exist .git (
   call git checkout .
@@ -53,6 +45,14 @@ IF exist .git (
   call git remote add origin https://jimdurand@bitbucket.org/jimdurand/libro-sync-agent.git
   call git fetch origin master
   call git reset --hard origin/master
+)
+
+
+IF NOT exist CONFIGURATION (
+  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
+  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
+  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
+  call git config user.email !RESTAURANT_CODE!@accounts.libroreserve.com
 )
 
 
