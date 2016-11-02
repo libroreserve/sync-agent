@@ -22,12 +22,12 @@ After the initial install, you will need to edit the *CONFIGURATION* manually an
 
 Here is a list of supported parameters:
 
-value|required?|default|
----|---|---|
-LIBRO_API_TOKEN|yes| |
-RESTAURANT_CODE|yes| |
-WORKING_DIR|no|c:\libro-sync-agent\working|
-API_ENDPOINT|no|https://api.libroreserve.com/inbound/maitre_d/status|
+value             | required? | default                                              |
+------------------|-----------|------------------------------------------------------|
+LIBRO_API_TOKEN   | yes       |                                                      |
+RESTAURANT_CODE   | yes       |                                                      |
+WORKING_DIR       | no        | c:\libro-sync-agent\working                          |
+API_ENDPOINT      | no        | https://api.libroreserve.com/inbound/maitre_d/status |
 
 ## Troubleshooting
 

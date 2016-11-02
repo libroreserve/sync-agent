@@ -38,6 +38,11 @@ IF ERRORLEVEL 1 (
 rem check if the git executable is present
 where /q git
 IF ERRORLEVEL 1 (
+  IF NOT exist vendor\git-2.10.1-32-bit (
+    IF NOT exist vendor ( mkdir vendor )
+    @echo Downloading Git...
+    powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"http://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\", \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\")"
+  )
   @echo Installing Git...
   call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
 )
