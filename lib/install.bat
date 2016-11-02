@@ -20,13 +20,6 @@ IF exist CONFIGURATION (
   rem IF "%WORKING_DIR%"=="" (SET WORKING_DIR=files)
 )
 
-IF NOT exist CONFIGURATION (
-  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
-  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
-  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
-  call git config user.email !RESTAURANT_CODE!@accounts.libroreserve.com
-)
-
 
 rem check if the git executable is present
 where /q git
@@ -41,6 +34,15 @@ IF ERRORLEVEL 1 (
 
   SET PATH=%PATH%;c:\Program Files\Git\cmd
 )
+
+
+IF NOT exist CONFIGURATION (
+  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
+  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
+  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
+  call git config user.email !RESTAURANT_CODE!@accounts.libroreserve.com
+)
+
 
 @echo Fetching the latest code...
 IF exist .git (
