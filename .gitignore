@@ -4,3 +4,4 @@ working/*
 .bundle
 .DS_Store
 CONFIGURATION
+vendor/git*.exe
