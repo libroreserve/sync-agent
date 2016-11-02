@@ -8,8 +8,10 @@ IF NOT exist c:\libro-sync-agent (
 
 cd c:\libro-sync-agent
 
+
 IF exist CONFIGURATION (
-  @echo Configuration file exists; Skipping configuration...
+  @echo Configuration file exists;
+  @echo Skipping configuration...
 ) ELSE (
   @echo Configuring Libro Sync service...
   call set /P WORKING_DIR= "File path to watch [DEFAULT: c:\libro-sync-agent\working]: "
@@ -17,6 +19,40 @@ IF exist CONFIGURATION (
   call set /P RESTAURANT_CODE= "Restaurant code [REQUIRED]: "
   rem IF "%WORKING_DIR%"=="" (SET WORKING_DIR=files)
 )
+
+IF NOT exist CONFIGURATION (
+  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
+  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
+  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
+  call git config user.email !RESTAURANT_CODE!@accounts.libroreserve.com
+)
+
+
+rem check if the git executable is present
+where /q git
+IF ERRORLEVEL 1 (
+  IF NOT exist vendor\git-2.10.1-32-bit.exe (
+    IF NOT exist vendor ( mkdir vendor )
+    @echo Downloading Git...
+    powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"http://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\", \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\")"
+  )
+  @echo Installing Git...
+  call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
+
+  SET PATH=%PATH%;c:\Program Files\Git\cmd
+)
+
+@echo Fetching the latest code...
+IF exist .git (
+  call git checkout .
+  call git pull origin master --force
+) ELSE (
+  call git init
+  call git remote add origin https://jimdurand@bitbucket.org/jimdurand/libro-sync-agent.git
+  call git fetch origin master
+  call git reset --hard origin/master
+)
+
 
 rem check if the ruby executable is present
 where /q ruby
@@ -35,39 +71,10 @@ IF ERRORLEVEL 1 (
   )
 )
 
-rem check if the git executable is present
-where /q git
-IF ERRORLEVEL 1 (
-  IF NOT exist vendor\git-2.10.1-32-bit (
-    IF NOT exist vendor ( mkdir vendor )
-    @echo Downloading Git...
-    powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"http://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\", \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\")"
-  )
-  @echo Installing Git...
-  call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
-)
-
-@echo Fetching the latest code...
-IF exist .git (
-  call git checkout .
-  call git pull origin master --force
-) ELSE (
-  call git init
-  call git remote add origin https://jimdurand@bitbucket.org/jimdurand/libro-sync-agent.git
-  call git fetch origin master
-  call git reset --hard origin/master
-)
 
 @echo Installing service dependencies...
 call gem install bundler --no-rdoc --no-ri
 call bundle install --without development test
-
-IF NOT exist CONFIGURATION (
-  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
-  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
-  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
-  call git config user.email !RESTAURANT_CODE!@accounts.libroreserve.com
-)
 
 @echo Installing Libro Sync service...
 call ruby lib/register.rb
