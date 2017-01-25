@@ -32,7 +32,11 @@ IF ERRORLEVEL 1 (
   @echo Installing Git...
   call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
 
-  SET PATH=%PATH%;c:\Program Files\Git\cmd
+  IF exist "c:\Program Files (x86)" (
+    SET "PATH=%PATH%;c:\Program Files (x86)\Git\cmd"
+  ) else (
+    SET "PATH=%PATH%;c:\Program Files\Git\cmd"
+  )
 )
 
 
