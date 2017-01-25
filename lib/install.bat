@@ -65,11 +65,6 @@ where /q ruby
 IF ERRORLEVEL 1 (
   @echo Installing Ruby...
   call vendor\rubyinstaller-2.3.1.exe /verysilent /tasks="modpath"
-
-  @echo Updating RubyGems...
-  call gem install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
-  call update_rubygems --no-ri --no-rdoc
-  call gem uninstall rubygems-update -x
 ) ELSE (
   IF exist lib/unregister.rb (
     @echo Uninstalling Libro Sync service...
@@ -77,9 +72,21 @@ IF ERRORLEVEL 1 (
   )
 )
 
+rem update rubygem executable is present
+FOR /f %%i IN ('gem --version') DO SET "RUBYGEMS_VERSION=%%i"
+IF NOT %RUBYGEMS_VERSION% == 2.6.7 (
+  @echo Updating RubyGems...
+  call gem install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
+  call update_rubygems --no-ri --no-rdoc
+  call gem uninstall rubygems-update -x
+)
+
 
 @echo Installing service dependencies...
-call gem install bundler --no-rdoc --no-ri
+where /q bundle
+IF ERRORLEVEL 1 (
+  call gem install bundler --no-rdoc --no-ri
+)
 call bundle install --without development test
 
 @echo Installing Libro Sync service...
