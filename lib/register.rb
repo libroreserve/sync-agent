@@ -9,11 +9,14 @@ SERVICE = 'libro-sync-agent'
 # stop and delete the service if it already exists
 begin
   Service.stop(SERVICE) if Service.status(SERVICE).controls_accepted.include? "stop"
+  sleep 3
 rescue
 end
-Service.delete(SERVICE) if Service.exists?(SERVICE)
 
-sleep 3
+if Service.exists?(SERVICE)
+  Service.delete(SERVICE)
+  sleep 2
+end
 
 # create the new service
 Service.create({
