@@ -13,6 +13,7 @@ rescue
 end
 Service.delete(SERVICE) if Service.exists?(SERVICE)
 
+sleep 3
 
 # create the new service
 Service.create({
