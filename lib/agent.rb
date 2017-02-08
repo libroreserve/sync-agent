@@ -82,6 +82,9 @@ class Agent
       @logger.error("Specified endpoint was not found on Libro server")
     rescue Faraday::ClientError => e
       @logger.error("Client error: #{e.message}")
+      if e.response[:status] == 401
+        File.delete(file_path) if File.exists?(file_path)
+      end
     # rescue Exception => e
     #   @logger.error("Error parsing file: #{file_path}")
     ensure
