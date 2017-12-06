@@ -8,6 +8,13 @@
 3. Make sure to fill in the LIBRO_API_TOKEN & RESTAURANT_CODE when prompted
 4. That’s it!
 
+If the installation worked correctly, you will find *c:\libro-sync-agent\working* & *c:\libro-sync-agent\tmp* directories and a log file will be created under *c:\libro-sync-agent\tmp\service-log.txt*.
+
+If not, execute *c:\libro-sync-agent\INSTALL* **as an administrator**.
+
+If these directories and files are still missing, follow the **Troubleshooting** section.
+
+
 ### What the script does
 
 1. Installs Ruby, RubyGems and third party dependencies (gems) required by the agent
