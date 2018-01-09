@@ -10,7 +10,7 @@ IF ERRORLEVEL 1 (
   call git pull origin master --force
 )
 
-@echo Reinstalling Libro Sync service...
+@echo Restarting Libro Sync service...
 call ruby lib/register.rb
 
 @echo done!
