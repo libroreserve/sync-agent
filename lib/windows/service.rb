@@ -15,7 +15,7 @@ end
 Dir.mkdir(ENV['WORKING_DIR']) unless File.directory?(ENV['WORKING_DIR'])
 Dir.mkdir('tmp') unless File.directory?('tmp')
 
-LOGGER = Logger.new('tmp/service-log.txt')
+LOGGER = Logger.new('tmp/service-log.txt', LOG_COUNT, LOG_LIMIT)
 
 begin
   class WatcherDaemon < Daemon

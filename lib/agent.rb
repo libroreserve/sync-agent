@@ -4,6 +4,9 @@ require 'nokogiri'
 require 'active_support/core_ext/hash/conversions'
 require 'json'
 
+LOG_LIMIT = (5 * 1024 * 1000)
+LOG_COUNT = 10
+
 class Agent
   @@processing = []
 
@@ -11,7 +14,7 @@ class Agent
     @directory = directory
     @pattern = pattern
 
-    @logger = options[:logger] || Logger.new('tmp/processing-log.txt')
+    @logger = options[:logger] || Logger.new('tmp/processing-log.txt', LOG_COUNT, LOG_LIMIT)
 
     ssl = if options[:ssl_cert_path]
       { ssl: { ca_file: options[:ssl_cert_path] }}

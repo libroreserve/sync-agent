@@ -11,7 +11,7 @@ ENV['WORKING_DIR'] ||= File.expand_path('working')
 
 class TestDaemon
   def self.mainloop
-    agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml|ST.+\.xml/i, ENV['API_ENDPOINT'], logger: Logger.new(STDOUT), token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'])
+    agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml|ST.+\.xml/i, ENV['API_ENDPOINT'], logger: Logger.new('tmp/log', LOG_COUNT, LOG_LIMIT), token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'])
     agent.watch!
 
     # keep process in sleep while waiting for new files
