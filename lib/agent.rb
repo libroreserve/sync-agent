@@ -65,6 +65,9 @@ class Agent
 
   private
     def process(file_path)
+      # normalize file paths because Windows does odd things
+      file_path = file_path.tr("\\", "/")
+
       if @@processing.include?(file_path)
         # file is already in process; abort
         # this senario happens because of a race between the timed loop and listener
