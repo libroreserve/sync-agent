@@ -91,8 +91,8 @@ class Agent
       if e.response[:status] == 401
         File.delete(file_path) if File.exists?(file_path)
       end
-    # rescue Exception => e
-    #   @logger.error("Error parsing file: #{file_path}")
+    rescue Exception => e
+      @logger.error("Error parsing file: #{file_path}; error: #{e.message}")
     ensure
       @@processing.delete(file_path)
     end
