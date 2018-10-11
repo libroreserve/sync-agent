@@ -22,6 +22,8 @@ class Agent
       { ssl: { verify: false }}
     end
 
+    @strip_invoice_data = options[:strip_invoice_data]
+
     @endpoint = Faraday.new({ url: endpoint }.merge(ssl)) do |faraday|
       faraday.request  :url_encoded             # form-encode POST params
       faraday.response :logger                  # log requests to STDOUT
@@ -99,7 +101,14 @@ class Agent
 
     def parse(file_path)
       doc = File.open(file_path) {|f| Nokogiri::XML(f) }
-      Hash.from_xml(doc.to_xml)
+      data = Hash.from_xml(doc.to_xml)
+
+      if @strip_invoice_data && data.dig('TMRequest', 'UpdateTable', 'Invoices')
+        data.dig('TMRequest', 'UpdateTable').delete('Invoices')
+        @logger.info("Stripped invoices: #{file_path}")
+      end
+
+      data
     end
 
     def push(data)

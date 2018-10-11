@@ -26,7 +26,7 @@ begin
     def service_main
       LOGGER.info 'Service is running'
 
-      agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml|ST.+\.xml/i, ENV['API_ENDPOINT'], logger: LOGGER, token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'])
+      agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml|ST.+\.xml/i, ENV['API_ENDPOINT'], logger: LOGGER, token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'], strip_invoice_data: ['true', '1'].include?(ENV['STRIP_INVOICE_DATA']))
       agent.watch!
 
       # keep process in sleep while waiting for new files
