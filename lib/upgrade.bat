@@ -7,6 +7,7 @@ IF ERRORLEVEL 1 (
   @echo git is missing; run INSTALL first
 ) ELSE (
   call git checkout .
+  call git remote set-url origin https://github.com/libroreserve/sync-agent.git
   call git pull origin master --force
 )
 
