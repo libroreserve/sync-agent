@@ -8,6 +8,7 @@ include Win32
 Dotenv.load(File.expand_path('../../../CONFIGURATION',  __FILE__))
 ENV['HANDLER'] = 'portable'
 ENV['API_ENDPOINT'] ||= 'https://api.libroreserve.com/inbound/maitre_d/status'
+ENV['STATUS_ENDPOINT'] ||= 'https://api.libroreserve.com/inbound/maitre_d/service'
 
 if [nil, ''].include? ENV['WORKING_DIR']
   ENV['WORKING_DIR'] = `echo %cd%\\working`.chomp
@@ -26,22 +27,26 @@ begin
     def service_main
       LOGGER.info 'Service is running'
 
-      agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml|ST.+\.xml/i, ENV['API_ENDPOINT'], logger: LOGGER, token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'], strip_invoice_data: ['true', '1'].include?(ENV['STRIP_INVOICE_DATA']))
-      agent.watch!
+      @agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml|ST.+\.xml/i, ENV['API_ENDPOINT'], logger: LOGGER, token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'], strip_invoice_data: ['true', '1'].include?(ENV['STRIP_INVOICE_DATA']))
+      @agent.watch!
+
+      @agent.endpoint.post(ENV['STATUS_ENDPOINT'], { status: 'initialized' }.to_json) rescue nil
 
       # keep process in sleep while waiting for new files
       while running?
         if state != SERVICE_PAUSED
-          agent.process!
+          @agent.process!
         end
         sleep 30
       end
     rescue Exception => e
       LOGGER.error "Agent failure; exception: #{e.inspect}\n#{e.backtrace.join($/)}"
+      @agent.endpoint.post(ENV['STATUS_ENDPOINT'], { status: 'failed' }.to_json) rescue nil
     end
 
     def service_stop
       LOGGER.info 'Service stopped'
+      @agent.endpoint.post(ENV['STATUS_ENDPOINT'], { status: 'stopped' }.to_json) rescue nil
     end
   end
 

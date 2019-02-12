@@ -8,6 +8,8 @@ LOG_LIMIT = (5 * 1024 * 1000)
 LOG_COUNT = 10
 
 class Agent
+  attr_accessor :endpoint
+
   @@processing = []
 
   def initialize(directory, pattern, endpoint, options={})
