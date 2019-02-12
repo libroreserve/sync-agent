@@ -2,7 +2,7 @@
 
 ## Installation
 
-1. [Download the install script](https://bitbucket.org/jimdurand/libro-sync-agent/downloads/install-libro-sync-agent.bat)
+1. [Download the install script (right click + save as...)](https://raw.githubusercontent.com/libroreserve/sync-agent/master/lib/install.bat)
 2. Execute the script **as an administrator**
     * Right-click > Run as an administrator
 3. Make sure to fill in the LIBRO_API_TOKEN & RESTAURANT_CODE when prompted
@@ -48,4 +48,4 @@ In theory, you shouldn't need to use the *UNINSTALL* & *UPGRADE* scripts but if 
 3. Executing the *UPGRADE* script
 4. Executing the *INSTALL* script
 
-If you’re still having issues, [report in a critical issue](https://bitbucket.org/jimdurand/libro-sync-agent/issues/new) and **attach the log file** under `c:\libro-sync-agent\tmp`
+If you’re still having issues, [report in a critical issue](https://github.com/libroreserve/sync-agent/issues) and **attach the log file** under `c:\libro-sync-agent\tmp`
