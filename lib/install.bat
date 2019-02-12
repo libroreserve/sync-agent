@@ -67,6 +67,7 @@ where /q ruby
 IF ERRORLEVEL 1 (
   @echo Installing Ruby...
   call vendor\rubyinstaller-2.3.1.exe /verysilent /tasks="modpath"
+  SET "PATH=%PATH%;c:\Ruby23\bin"
 
   rem restart script to make sure the ruby executables are loaded
   start cmd /c call %~f0
