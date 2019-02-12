@@ -28,9 +28,9 @@ IF ERRORLEVEL 1 (
     IF NOT exist vendor ( mkdir vendor )
     @echo Downloading Git...
     rem powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"https://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\", \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\")"
-    powershell -command "Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\" \"https://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\""
+    powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\" \"https://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\""
   )
-  @echo Installing Git...
+  @echo Installing Git..
   call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
 
   IF exist "c:\Program Files (x86)" (
