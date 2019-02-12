@@ -44,10 +44,11 @@ IF ERRORLEVEL 1 (
 @echo Fetching the latest code...
 IF exist .git (
   call git checkout .
+  call git remote set-url origin https://github.com/libroreserve/sync-agent.git
   call git pull origin master --force
 ) ELSE (
   call git init
-  call git remote add origin https://jimdurand@bitbucket.org/jimdurand/libro-sync-agent.git
+  call git remote add origin https://github.com/libroreserve/sync-agent.git
   call git fetch origin master
   call git reset --hard origin/master
 )
