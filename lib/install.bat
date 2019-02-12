@@ -30,7 +30,7 @@ IF ERRORLEVEL 1 (
     rem powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"https://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\", \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\")"
     powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\git-2.10.1-32-bit.exe\" \"https://bitbucket.org/jimdurand/libro-sync-agent/downloads/git-2.10.1-32-bit.exe\""
   )
-  @echo Installing Git..
+  @echo Installing Git...
   call vendor\git-2.10.1-32-bit /verysilent /tasks="modpath"
 
   IF exist "c:\Program Files (x86)" (
@@ -66,6 +66,10 @@ where /q ruby
 IF ERRORLEVEL 1 (
   @echo Installing Ruby...
   call vendor\rubyinstaller-2.3.1.exe /verysilent /tasks="modpath"
+
+  rem restart script to make sure the ruby executables are loaded
+  start cmd /c call %~f0
+  exit /b
 ) ELSE (
   IF exist lib/unregister.rb (
     @echo Uninstalling Libro Sync service...
