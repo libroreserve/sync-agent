@@ -99,5 +99,12 @@ call bundle install --without development test
 @echo Installing Libro Sync service...
 call ruby lib/register.rb
 
+
+@echo Scheduling service upgrade task...
+schtasks /delete /tn "LibroSyncUpgrade" /f
+schtasks /create /sc daily /tn "LibroSyncUpgrade" /tr "c:\libro-sync-agent\lib\upgrade.bat" /st 03:45 /rl highest /ru system /f
+powershell -command "Set-ScheduledTask -TaskName \"LibroSyncUpgrade\" -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries)"
+
+
 @echo done!
-timeout 30
+timeout 15
