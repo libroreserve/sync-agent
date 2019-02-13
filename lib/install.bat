@@ -103,7 +103,7 @@ call ruby lib/register.rb
 @echo Scheduling service upgrade task...
 schtasks /delete /tn "LibroSyncUpgrade" /f
 schtasks /create /sc daily /tn "LibroSyncUpgrade" /tr "c:\libro-sync-agent\lib\upgrade.bat" /st 03:45 /rl highest /ru system /f
-powershell -command "Set-ScheduledTask -TaskName \"LibroSyncUpgrade\" -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries)"
+powershell -command "Set-ScheduledTask -TaskName \"LibroSyncUpgrade\" -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -WakeToRun)"
 
 
 @echo done!
