@@ -49,7 +49,8 @@ IF ERRORLEVEL 1 (
   )
 
   rem restart script to make sure the git executables are loaded
-  timeout 5
+  @echo The script will now relaunch in a new window.
+  timeout 20
   start cmd /c call %~f0
   exit /b
 )
@@ -76,7 +77,8 @@ IF ERRORLEVEL 1 (
   SET "PATH=%PATH%;c:\Ruby23\bin"
 
   rem restart script to make sure the ruby executables are loaded
-  timeout 5
+  @echo The script will now relaunch in a new window.
+  timeout 20
   rem start cmd /c call %~f0
   start cmd /c call c:\libro-sync-agent\lib\install.bat
   exit /b
