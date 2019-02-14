@@ -20,6 +20,10 @@ IF exist CONFIGURATION (
   call set /P LIBRO_API_TOKEN= "Libro API token [REQUIRED]: "
   call set /P RESTAURANT_CODE= "Restaurant code [REQUIRED]: "
   rem IF "%WORKING_DIR%"=="" (SET WORKING_DIR=files)
+
+  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
+  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
+  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
 )
 
 
@@ -61,16 +65,8 @@ IF exist .git (
   call git remote add origin https://github.com/libroreserve/sync-agent.git
   call git fetch origin master
   call git reset --hard origin/master
+  call git config user.email sync-agent@accounts.libroreserve.com
 )
-
-
-IF NOT exist CONFIGURATION (
-  @echo WORKING_DIR=!WORKING_DIR!>CONFIGURATION
-  @echo LIBRO_API_TOKEN=!LIBRO_API_TOKEN!>>CONFIGURATION
-  @echo RESTAURANT_CODE=!RESTAURANT_CODE!>>CONFIGURATION
-  call git config user.email !RESTAURANT_CODE!@accounts.libroreserve.com
-)
-
 
 rem check if the ruby executable is present
 where /q ruby
