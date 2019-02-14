@@ -70,6 +70,7 @@ IF ERRORLEVEL 1 (
   SET "PATH=%PATH%;c:\Ruby23\bin"
 
   rem restart script to make sure the ruby executables are loaded
+  timeout 5
   start cmd /c call %~f0
   exit /b
 ) ELSE (
