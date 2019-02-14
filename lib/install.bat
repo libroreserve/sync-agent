@@ -4,6 +4,8 @@ setlocal enabledelayedexpansion
 
 IF NOT exist c:\libro-sync-agent (
   mkdir c:\libro-sync-agent
+  mkdir c:\libro-sync-agent\working
+  mkdir c:\libro-sync-agent\vendor
 )
 
 cd c:\libro-sync-agent
