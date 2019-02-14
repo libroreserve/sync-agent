@@ -43,6 +43,11 @@ IF ERRORLEVEL 1 (
   ) else (
     SET "PATH=%PATH%;%PROGRAMFILES%\cmd"
   )
+
+  rem restart script to make sure the git executables are loaded
+  timeout 5
+  start cmd /c call %~f0
+  exit /b
 )
 
 
