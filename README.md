@@ -10,10 +10,16 @@
 
 If the installation worked correctly, you will find *c:\libro-sync-agent\working* & *c:\libro-sync-agent\tmp* directories and a log file will be created under *c:\libro-sync-agent\tmp\service-log.txt*.
 
-If not, execute *c:\libro-sync-agent\INSTALL* **as an administrator**.
+### If the installation fails
+
+* If c:\libro-sync-agent\vendor dir is empty
+    1. Download Git ([for Windows 32 bit](https://github.com/libroreserve/sync-agent/raw/downloads/vendor/Git-2.20.1-32-bit.exe)) ([for Windows 64 bit](https://github.com/libroreserve/sync-agent/raw/downloads/vendor/Git-2.20.1-64-bit.exe)) and place it in the *vendor* dir
+    2. If you're not sure which one to get, download both
+    3. Re-execute the install script **as an administrator**
+
+* If not, execute *c:\libro-sync-agent\INSTALL* **as an administrator**.
 
 If these directories and files are still missing, follow the **Troubleshooting** section.
-
 
 ### What the script does
 
@@ -48,4 +54,4 @@ In theory, you shouldn't need to use the *UNINSTALL* & *UPGRADE* scripts but if 
 3. Executing the *UPGRADE* script
 4. Executing the *INSTALL* script
 
-If you’re still having issues, [report in a critical issue](https://github.com/libroreserve/sync-agent/issues) and **attach the log file** under `c:\libro-sync-agent\tmp`
+If you’re still having issues, [report in a critical issue](https://github.com/libroreserve/sync-agent/issues) and **e-mail us the log file** under `c:\libro-sync-agent\tmp` at admin@libroreserve.com.
