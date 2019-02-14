@@ -26,19 +26,22 @@ IF exist CONFIGURATION (
 rem check if the git executable is present
 where /q git
 IF ERRORLEVEL 1 (
-  IF NOT exist vendor\Git-2.20.1-32-bit.exe (
+  SET GIT_FILENAME=Git-2.20.1-32-bit.exe
+  IF EXIST "%PROGRAMFILES(X86)%" (SET GIT_FILENAME=Git-2.20.1-64-bit.exe)
+
+  IF NOT exist vendor\!GIT_FILENAME! (
     IF NOT exist vendor ( mkdir vendor )
     @echo Downloading Git...
-    rem powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/Git-2.20.1-32-bit.exe\", \"c:\libro-sync-agent\vendor\Git-2.20.1-32-bit.exe\")"
-    powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\Git-2.20.1-32-bit.exe\" \"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/Git-2.20.1-32-bit.exe\""
+    rem powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_FILENAME!\", \"c:\libro-sync-agent\vendor\!GIT_FILENAME!\")"
+    powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\!GIT_FILENAME!\" \"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_FILENAME!\""
   )
   @echo Installing Git...
-  call vendor\Git-2.20.1-32-bit /verysilent /tasks="modpath"
+  call vendor\!GIT_FILENAME! /verysilent /tasks="modpath"
 
-  IF exist "c:\Program Files (x86)" (
-    SET "PATH=%PATH%;c:\Program Files (x86)\Git\cmd"
+  IF exist "%PROGRAMFILES(X86)%\Git\cmd" (
+    SET "PATH=%PATH%;%PROGRAMFILES(X86)%\Git\cmd"
   ) else (
-    SET "PATH=%PATH%;c:\Program Files\Git\cmd"
+    SET "PATH=%PATH%;%PROGRAMFILES%\cmd"
   )
 )
 
