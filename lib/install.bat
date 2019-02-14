@@ -119,5 +119,5 @@ powershell -command "Set-ScheduledTask -TaskName \"LibroSyncUpgrade\" -Settings 
 
 
 @echo done!
-color 2
+color a
 timeout 30

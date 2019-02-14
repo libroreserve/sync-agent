@@ -27,5 +27,5 @@ SET RUBY=c:\Ruby23\bin\ruby.exe
 call "!RUBY!" lib/register.rb
 
 @echo done!
-color 2
+color a
 timeout 5
