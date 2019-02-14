@@ -4,11 +4,12 @@ setlocal enabledelayedexpansion
 
 IF NOT exist c:\libro-sync-agent (
   mkdir c:\libro-sync-agent
-  mkdir c:\libro-sync-agent\working
-  mkdir c:\libro-sync-agent\vendor
 )
 
 cd c:\libro-sync-agent
+
+IF NOT exist vendor (mkdir vendor)
+IF NOT exist working (mkdir working)
 
 
 IF exist CONFIGURATION (
