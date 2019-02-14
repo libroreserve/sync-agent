@@ -13,4 +13,5 @@ call "!RUBY!" lib/unregister.rb
 schtasks /delete /tn "LibroSyncUpgrade" /f
 
 @echo done!
-timeout 10
+color 2
+timeout 5

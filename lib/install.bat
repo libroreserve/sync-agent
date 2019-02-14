@@ -42,8 +42,18 @@ IF NOT exist "!GIT!" (
 
   IF NOT exist "vendor\!GIT_INSTALLER!" (
     @echo Downloading Git...
-    rem powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\", \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\")"
     powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\" \"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\""
+    IF NOT exist "vendor\!GIT_INSTALLER!" (
+      @echo Invoke-WebRequest failed. trying something else...
+      powershell -command "(New-Object Net.WebClient).DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\", \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\")"
+    )
+    IF NOT exist "vendor\!GIT_INSTALLER!" (
+      @echo WebClient.DownloadFile also failed...
+      @echo Please download "https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!", move it to "c:\libro-sync-agent\vendor\" and relaunch this script.
+      color c
+      timeout 3600
+      exit /b
+    )
   )
   @echo Installing Git...
   call vendor\!GIT_INSTALLER! /verysilent /tasks="modpath"
@@ -109,4 +119,5 @@ powershell -command "Set-ScheduledTask -TaskName \"LibroSyncUpgrade\" -Settings 
 
 
 @echo done!
+color 2
 timeout 30
