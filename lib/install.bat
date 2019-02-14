@@ -28,86 +28,77 @@ IF exist CONFIGURATION (
 
 
 rem check if the git executable is present
-where /q git
-IF ERRORLEVEL 1 (
-  SET GIT_FILENAME=Git-2.20.1-32-bit.exe
-  IF EXIST "%PROGRAMFILES(X86)%" (SET GIT_FILENAME=Git-2.20.1-64-bit.exe)
 
-  IF NOT exist vendor\!GIT_FILENAME! (
-    IF NOT exist vendor ( mkdir vendor )
+IF exist "%PROGRAMFILES(X86)%\Git\cmd" (
+  SET "GIT=%PROGRAMFILES(X86)%\Git\cmd\git.exe"
+) ELSE (
+  SET "GIT=%PROGRAMFILES%\Git\cmd\git.exe"
+)
+
+IF NOT exist "!GIT!" (
+  SET GIT_INSTALLER=Git-2.20.1-32-bit.exe
+  IF EXIST "%PROGRAMFILES(X86)%" (SET GIT_INSTALLER=Git-2.20.1-64-bit.exe)
+
+  IF NOT exist "vendor\!GIT_INSTALLER!" (
     @echo Downloading Git...
-    rem powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_FILENAME!\", \"c:\libro-sync-agent\vendor\!GIT_FILENAME!\")"
-    powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\!GIT_FILENAME!\" \"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_FILENAME!\""
+    rem powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\", \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\")"
+    powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\" \"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\""
   )
   @echo Installing Git...
-  call vendor\!GIT_FILENAME! /verysilent /tasks="modpath"
-
-  IF exist "%PROGRAMFILES(X86)%\Git\cmd" (
-    SET "PATH=%PATH%;%PROGRAMFILES(X86)%\Git\cmd"
-  ) else (
-    SET "PATH=%PATH%;%PROGRAMFILES%\cmd"
-  )
-
-  rem restart script to make sure the git executables are loaded
-  @echo The script will now relaunch in a new window.
-  timeout 20
-  start cmd /c call %~f0
-  exit /b
+  call vendor\!GIT_INSTALLER! /verysilent /tasks="modpath"
 )
 
 
 @echo Fetching the latest code...
 IF exist .git (
-  call git checkout .
-  call git remote set-url origin https://github.com/libroreserve/sync-agent.git
-  call git pull origin master --force
+  call "!GIT!" checkout .
+  call "!GIT!" remote set-url origin https://github.com/libroreserve/sync-agent.git
+  call "!GIT!" pull origin master --force
 ) ELSE (
-  call git init
-  call git remote add origin https://github.com/libroreserve/sync-agent.git
-  call git fetch origin master
-  call git reset --hard origin/master
-  call git config user.email sync-agent@accounts.libroreserve.com
+  call "!GIT!" init
+  call "!GIT!" remote add origin https://github.com/libroreserve/sync-agent.git
+  call "!GIT!" fetch origin master
+  call "!GIT!" reset --hard origin/master
+  call "!GIT!" config user.email sync-agent@accounts.libroreserve.com
 )
 
+
 rem check if the ruby executable is present
-where /q ruby
-IF ERRORLEVEL 1 (
+
+SET RUBY=c:\Ruby23\bin\ruby.exe
+SET GEM=c:\Ruby23\bin\gem
+SET BUNDLE=c:\Ruby23\bin\bundle
+
+IF NOT exist "!RUBY!" (
   @echo Installing Ruby...
   call vendor\rubyinstaller-2.3.1.exe /verysilent /tasks="modpath"
   SET "PATH=%PATH%;c:\Ruby23\bin"
-
-  rem restart script to make sure the ruby executables are loaded
-  @echo The script will now relaunch in a new window.
-  timeout 20
-  rem start cmd /c call %~f0
-  start cmd /c call c:\libro-sync-agent\lib\install.bat
-  exit /b
 ) ELSE (
   IF exist lib/unregister.rb (
     @echo Uninstalling Libro Sync service...
-    call ruby lib/unregister.rb
+    call "!RUBY!" lib/unregister.rb
   )
 )
 
+
 rem update rubygem executable is present
-FOR /f %%i IN ('gem --version') DO SET "RUBYGEMS_VERSION=%%i"
+FOR /f %%i IN ('!RUBY! !GEM! --version') DO SET "RUBYGEMS_VERSION=%%i"
 IF NOT %RUBYGEMS_VERSION% == 2.6.7 (
   @echo Updating RubyGems...
-  call gem install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
+  call "!RUBY!" "!GEM!" install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
   call update_rubygems --no-ri --no-rdoc
-  call gem uninstall rubygems-update -x
+  call "!RUBY!" "!GEM!" uninstall rubygems-update -x
 )
 
 
 @echo Installing service dependencies...
-where /q bundle
-IF ERRORLEVEL 1 (
-  call gem install bundler --no-rdoc --no-ri
+IF NOT exist "!BUNDLE!" (
+  call "!RUBY!" "!GEM!" install bundler --no-rdoc --no-ri
 )
-call bundle install --without development test
+call "!RUBY!" "!BUNDLE!" install --without development test
 
 @echo Installing Libro Sync service...
-call ruby lib/register.rb
+call "!RUBY!" lib/register.rb
 
 
 @echo Scheduling service upgrade task...
@@ -117,4 +108,4 @@ powershell -command "Set-ScheduledTask -TaskName \"LibroSyncUpgrade\" -Settings 
 
 
 @echo done!
-timeout 15
+timeout 30
