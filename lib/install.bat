@@ -73,7 +73,8 @@ IF ERRORLEVEL 1 (
 
   rem restart script to make sure the ruby executables are loaded
   timeout 5
-  start cmd /c call %~f0
+  rem start cmd /c call %~f0
+  start cmd /c call c:\libro-sync-agent\lib\install.bat
   exit /b
 ) ELSE (
   IF exist lib/unregister.rb (
