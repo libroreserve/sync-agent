@@ -44,11 +44,15 @@ IF NOT exist "!GIT!" (
     @echo Downloading Git...
     powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\" \"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\""
     IF NOT exist "vendor\!GIT_INSTALLER!" (
-      @echo Invoke-WebRequest failed. trying something else...
+      @echo Invoke-WebRequest failed...
       powershell -command "(New-Object Net.WebClient).DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\", \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\")"
     )
     IF NOT exist "vendor\!GIT_INSTALLER!" (
-      @echo WebClient.DownloadFile also failed...
+      @echo WebClient also failed...
+      powershell -command "Import-Module BitsTransfer; Start-BitsTransfer -Source \"https://s3.amazonaws.com/libro-static-files/sync-agent/!GIT_INSTALLER!\" -Destination \"C:\libro-sync-agent\vendor\!GIT_INSTALLER!\""
+    )
+    IF NOT exist "vendor\!GIT_INSTALLER!" (
+      @echo BitsTransfer also failed... -_-
       @echo Please download "https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!", move it to "c:\libro-sync-agent\vendor\" and relaunch this script.
       color c
       timeout 3600
