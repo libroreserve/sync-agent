@@ -82,9 +82,7 @@ class Agent
 
       @logger.info("File processing: #{file_path}")
       push(parse(file_path))
-
-      File.delete(file_path) if File.exists?(file_path)
-      @logger.info("File deleted: #{file_path}")
+      delete(file_path)
 
     rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Net::ReadTimeout => e
       @logger.error("Could not connect to Libro server: #{e.message}")
@@ -98,7 +96,7 @@ class Agent
     rescue Exception => e
       @logger.error("Error parsing file: #{file_path}; error: #{e.message}")
     ensure
-      @@processing.delete(file_path)
+      delete(file_path)
     end
 
     def parse(file_path)
@@ -119,6 +117,22 @@ class Agent
       response = @endpoint.post do |req|
         req.headers['Content-Type'] = 'application/json'
         req.body = data.to_json
+      end
+    end
+
+    def delete(file_path)
+      begin
+        retries ||= 1
+        if File.exists?(file_path)
+          File.delete(file_path)
+          @logger.info("File deleted: #{file_path} (try ##{retries})")
+        end
+      rescue StandardError => e
+        @logger.error("An error occured while deleting the file (#{e})")
+        sleep 1
+        retry if (retries += 1) < 5
+      ensure
+        @@processing.delete(file_path)
       end
     end
 
