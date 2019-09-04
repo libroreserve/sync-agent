@@ -42,6 +42,9 @@ begin
     rescue Exception => e
       LOGGER.error "Agent failure; exception: #{e.inspect}\n#{e.backtrace.join($/)}"
       @agent.endpoint.post(ENV['STATUS_ENDPOINT'], { status: 'failed' }.to_json) rescue nil
+
+      # upgrade & restart the service
+      system 'lib/upgrade.bat'
     end
 
     def service_stop
