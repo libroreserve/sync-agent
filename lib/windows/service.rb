@@ -30,7 +30,8 @@ begin
       @agent = Agent.new(ENV['WORKING_DIR'], /RTBL.+\.xml|ST.+\.xml/i, ENV['API_ENDPOINT'], logger: LOGGER, token: ENV['LIBRO_API_TOKEN'], code: ENV['RESTAURANT_CODE'], strip_invoice_data: ['true', '1'].include?(ENV['STRIP_INVOICE_DATA']))
       @agent.watch!
 
-      @agent.endpoint.post(ENV['STATUS_ENDPOINT'], { status: 'initialized' }.to_json) rescue nil
+      hash = `git rev-parse --short HEAD`.chomp rescue nil
+      @agent.endpoint.post(ENV['STATUS_ENDPOINT'], { status: 'initialized', version: hash }.to_json) rescue nil
 
       # keep process in sleep while waiting for new files
       while running?
