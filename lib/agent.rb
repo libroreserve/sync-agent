@@ -80,20 +80,28 @@ class Agent
 
       @@processing << file_path
 
-      @logger.info("File processing: #{file_path}")
-      push(parse(file_path))
-      delete(file_path)
+      begin
+        retries ||= 1
 
-    rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Net::ReadTimeout => e
-      @logger.error("Could not connect to Libro server: #{e.message}")
-    rescue Faraday::ResourceNotFound => e
-      @logger.error("Specified endpoint was not found on Libro server")
-    rescue Faraday::ClientError => e
-      @logger.error("Client error: #{e.message}")
-    rescue Exception => e
-      @logger.error("Error parsing file: #{file_path}; error: #{e.message}")
-    ensure
-      delete(file_path)
+        @logger.info("File processing: #{file_path}")
+        data = parse(file_path)
+        push(data)
+        delete(file_path)
+
+      rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Net::ReadTimeout => e
+        @logger.error("Could not connect to Libro server: #{e.message}")
+      rescue Faraday::ResourceNotFound => e
+        @logger.error("Specified endpoint was not found on Libro server")
+      rescue Faraday::ClientError => e
+        @logger.error("Client error: #{e.message}")
+      rescue StandardError, Exception => e
+        @logger.error("Error processing file: #{file_path}; error: #{e.message} (try ##{retries})")
+
+        sleep 1
+        retry if (retries += 1) < 5
+      ensure
+        delete(file_path)
+      end
     end
 
     def parse(file_path)
@@ -118,19 +126,11 @@ class Agent
     end
 
     def delete(file_path)
-      begin
-        retries ||= 1
-        if File.exists?(file_path)
-          File.delete(file_path)
-          @logger.info("File deleted: #{file_path} (try ##{retries})")
-        end
-      rescue StandardError => e
-        @logger.error("An error occured while deleting the file (#{e})")
-        sleep 1
-        retry if (retries += 1) < 5
-      ensure
-        @@processing.delete(file_path)
+      if File.exists?(file_path)
+        File.delete(file_path)
+        @logger.info("File deleted: #{file_path}")
       end
+      @@processing.delete(file_path)
     end
 
 end
