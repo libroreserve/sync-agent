@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 gem 'listen'
 gem 'faraday'
-gem 'nokogiri'
-gem 'activesupport'
-gem 'json'
+gem 'nokogiri', '~> 1.10.10'
+gem 'activesupport', '4.2.7.1'
+gem 'json', '1.8.3'
 gem 'dotenv'
 
 if Gem.win_platform?
@@ -13,5 +13,5 @@ if Gem.win_platform?
 end
 
 group :development, :test do
-  gem 'pry-byebug'
+  gem 'pry-byebug', '~> 3.4.0'
 end
