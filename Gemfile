@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'listen'
 gem 'faraday'
-gem 'nokogiri', '~> 1.10.10'
+gem 'nokogiri', '~> 1.11.4'
 gem 'activesupport', '4.2.7.1'
 gem 'json', '1.8.3'
 gem 'dotenv'
