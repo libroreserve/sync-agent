@@ -98,11 +98,12 @@ IF NOT exist "!RUBY!" (
 
 rem update rubygem executable is present
 FOR /f %%i IN ('!RUBY! !GEM! --version') DO SET "RUBYGEMS_VERSION=%%i"
-IF NOT %RUBYGEMS_VERSION% == 2.6.7 (
+IF NOT %RUBYGEMS_VERSION% == 3.2.19 (
   @echo Updating RubyGems...
-  call "!RUBY!" "!GEM!" install --local vendor\rubygems-update-2.6.7.gem --no-rdoc --no-ri
+  call "!RUBY!" "!GEM!" install --local vendor\rubygems-update-3.2.19.gem --no-rdoc --no-ri
   call update_rubygems --no-ri --no-rdoc
   call "!RUBY!" "!GEM!" uninstall rubygems-update -x
+  call "!RUBY!" "!GEM!" install bundler --no-rdoc --no-ri
 )
 
 
