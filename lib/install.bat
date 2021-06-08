@@ -111,7 +111,8 @@ IF NOT %RUBYGEMS_VERSION% == 3.2.19 (
 IF NOT exist "!BUNDLE!" (
   call "!RUBY!" "!GEM!" install bundler --no-rdoc --no-ri
 )
-call "!RUBY!" "!BUNDLE!" install --without development test
+call "!RUBY!" "!BUNDLE!" config set --local without 'development test'
+call "!RUBY!" "!BUNDLE!" install
 
 @echo Installing Libro Sync service...
 call "!RUBY!" lib/register.rb
