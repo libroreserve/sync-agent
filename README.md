@@ -46,10 +46,11 @@ STRIP_INVOICE_DATA | no        | 0                                              
 
 ### Cohabitation
 
-If the Restock POS agent is running on the server (the Restock logo will appear on the system tray), some additional configuration is required. On the Restock agent, you will need to activate the Recopy service and set the directory location to `c:\libro-sync-agent\working` as seen in the screenshot below.
+If the Restock agent is running on the server (the Restock logo will appear on the system tray), do not modify the previous POS configuration. On the Restock agent, you will need to activate the recopy service and set the directory location to `c:\libro-sync-agent\working` as seen in the screenshot below.
 
 ![94a2d27d-9987-4c22-b41b-2785655eb4c7](https://user-images.githubusercontent.com/77757014/167418339-9259abd4-38f8-477c-bb59-f36c1283c7ad.png)
 
+The log activity from the POS should therefore still be deposited to the Restock working directory to be then copied by the Restock agent to our working repository.
 
 ## Troubleshooting
 
