@@ -6,7 +6,7 @@
 2. Execute the script **as an administrator**
     * Right-click > Run as an administrator
 3. Make sure to fill in the LIBRO_API_TOKEN & RESTAURANT_CODE when prompted
-4. That’s it!
+4. Thatâ€™s it!
 
 If the installation worked correctly, you will find *c:\libro-sync-agent\working* & *c:\libro-sync-agent\tmp* directories and a log file will be created under *c:\libro-sync-agent\tmp\service-log.txt*.
 
@@ -44,6 +44,13 @@ WORKING_DIR        | no        | c:\libro-sync-agent\working                    
 API_ENDPOINT       | no        | https://api.libroreserve.com/inbound/maitre_d/status |
 STRIP_INVOICE_DATA | no        | 0                                                    |
 
+### Cohabitation
+
+If the Restock POS agent is running on the server (the Restock logo will appear on the system tray), some additional configuration is required. On the Restock agent, you will need to activate the Recopy service and set the directory location to `c:\libro-sync-agent\working` as seen in the screenshot below.
+
+![94a2d27d-9987-4c22-b41b-2785655eb4c7](https://user-images.githubusercontent.com/77757014/167418339-9259abd4-38f8-477c-bb59-f36c1283c7ad.png)
+
+
 ## Troubleshooting
 
 The *INSTALL* script takes care of upgrading the agent to the latest release and upgrading the Windows service.
@@ -54,4 +61,4 @@ In theory, you shouldn't need to use the *UNINSTALL* & *UPGRADE* scripts but if 
 3. Executing the *UPGRADE* script
 4. Executing the *INSTALL* script
 
-If you’re still having issues, [report in a critical issue](https://github.com/libroreserve/sync-agent/issues) and **e-mail us the log file** under `c:\libro-sync-agent\tmp` at admin@libroreserve.com.
+If youâ€™re still having issues, [report in a critical issue](https://github.com/libroreserve/sync-agent/issues) and **e-mail us the log file** under `c:\libro-sync-agent\tmp` at admin@libroreserve.com.
