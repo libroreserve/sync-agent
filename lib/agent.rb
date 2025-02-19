@@ -68,6 +68,25 @@ class Agent
   end
 
   private
+    def order_files(files)
+      files.sort_by do |file|
+        # Extract base name and optional suffix (numeric or alphanumeric)
+        base, suffix = file.match(/^(.+?)(?:-([A-Za-z0-9]+))?\.xml$/).captures
+
+        # Process the suffix
+        suffix_value =
+          if suffix.nil?
+            [-1, ""] # Prioritize main files (e.g., Z763.xml before Z763-1.xml)
+          elsif suffix.match?(/^\d+$/)
+            [0, suffix.to_i] # Sort numeric suffixes as integers (e.g., Z763-2.xml before Z763-10.xml)
+          else
+            [1, suffix] # Sort alphabetical suffixes after numeric ones
+          end
+
+        [base, suffix_value] # Sort first by base, then by structured suffix
+      end
+    end
+
     def process(file_path)
       # normalize file paths because Windows does odd things
       file_path = file_path.tr("\\", "/")
