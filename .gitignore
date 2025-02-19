@@ -5,3 +5,4 @@ working/*
 .DS_Store
 CONFIGURATION
 vendor/git*.exe
+tests/tmp/*
