@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'listen'
+gem 'listen', '>= 3.2.0'
 gem 'faraday'
 gem 'nokogiri', '~> 1.10.10'
 gem 'activesupport', '4.2.7.1'
@@ -8,6 +8,6 @@ gem 'json', '1.8.3'
 gem 'dotenv'
 
 if Gem.win_platform?
-  gem 'win32-service'
+  gem 'win32-service', '>= 2.3.2'
   # gem 'wdm', '>= 0.1.0'
 end
