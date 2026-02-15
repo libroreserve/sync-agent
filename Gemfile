@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'listen'
-gem 'faraday'
+gem 'faraday', '>= 2.14.1'
 gem 'nokogiri', '~> 1.10.10'
 gem 'activesupport', '4.2.7.1'
 gem 'json', '1.8.3'
