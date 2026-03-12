@@ -21,7 +21,7 @@ If the installation worked correctly, you will find *c:\libro-sync-agent\working
 
 If these directories and files are still missing, follow the **Troubleshooting** section.
 
-### What the script does
+### What the agent does
 
 1. Installs Ruby, RubyGems and third party dependencies (gems) required by the agent
 2. Installs **Git**, used to upgrade the agent
@@ -44,14 +44,6 @@ WORKING_DIR        | no        | c:\libro-sync-agent\working                    
 API_ENDPOINT       | no        | https://api.libroreserve.com/inbound/maitre_d/status |
 STRIP_INVOICE_DATA | no        | 0                                                    |
 
-### Cohabitation
-
-If the Restock agent is running on the server (the Restock logo will appear on the system tray), <b>do not modify the existing POS configuration</b>. On the Restock agent, you will need to activate the recopy service and set the directory location to `c:\libro-sync-agent\working` as seen in the screenshot below.
-
-![94a2d27d-9987-4c22-b41b-2785655eb4c7](https://user-images.githubusercontent.com/77757014/167418339-9259abd4-38f8-477c-bb59-f36c1283c7ad.png)
-
-The log activity from the POS should therefore still be deposited to the Restock working directory to be then copied by the Restock agent to our working repository.
-
 ## Troubleshooting
 
 The *INSTALL* script takes care of upgrading the agent to the latest release and upgrading the Windows service.
@@ -63,3 +55,23 @@ In theory, you shouldn't need to use the *UNINSTALL* & *UPGRADE* scripts but if 
 4. Executing the *INSTALL* script
 
 If you’re still having issues, [report in a critical issue](https://github.com/libroreserve/sync-agent/issues) and **e-mail us the log file** under `c:\libro-sync-agent\tmp` at admin@libroreserve.com.
+
+## License
+
+The Libro Sync Agent is open-source software licensed under the highly permissive **MIT License**.
+
+Copyright (C) 2026 Libro
+
+**What this means for you:**
+Because this agent lives on your POS system servers to sync files to our API, we want you to have full visibility into what the code is doing and zero friction when deploying it.
+
+* **You are free to:** Read the source code, install it, modify it to fit your specific network environment, and use it however you see fit without worrying about strict copyleft restrictions.
+* **No Warranty:** This tool is provided "as is" without any warranty. We are not liable for any damages or issues that arise from its use.
+
+For the full legal text, please see the [`LICENSE`](LICENSE) file included in this repository.
+
+## Acknowledgments
+
+This agent relies on several excellent open-source libraries from the Ruby community. We are incredibly grateful to the developers of these packages.
+
+For a full list of third-party software, copyright notices, and licenses, please see the [`CREDITS`](CREDITS) file included in this repository.
