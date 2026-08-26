@@ -16,8 +16,8 @@ IF NOT exist "!GIT!" (
   @echo git is missing; run INSTALL first
 ) ELSE (
   call "!GIT!" checkout .
-  call "!GIT!" remote set-url origin https://github.com/libroreserve/sync-agent.git
-  call "!GIT!" pull origin master --force
+  call "!GIT!" remote set-url origin https://github.com/opentable/libro-sync-agent.git
+  call "!GIT!" pull origin main --force
 )
 
 
