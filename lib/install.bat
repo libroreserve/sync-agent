@@ -42,10 +42,10 @@ IF NOT exist "!GIT!" (
 
   IF NOT exist "vendor\!GIT_INSTALLER!" (
     @echo Downloading Git...
-    powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\" \"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\""
+    powershell -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -OutFile \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\" \"https://github.com/opentable/libro-sync-agent/raw/refs/heads/downloads/vendor/!GIT_INSTALLER!\""
     IF NOT exist "vendor\!GIT_INSTALLER!" (
       @echo Invoke-WebRequest failed...
-      powershell -command "(New-Object Net.WebClient).DownloadFile(\"https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!\", \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\")"
+      powershell -command "(New-Object Net.WebClient).DownloadFile(\"https://github.com/opentable/libro-sync-agent/raw/refs/heads/downloads/vendor/!GIT_INSTALLER!\", \"c:\libro-sync-agent\vendor\!GIT_INSTALLER!\")"
     )
     IF NOT exist "vendor\!GIT_INSTALLER!" (
       @echo WebClient also failed...
@@ -53,7 +53,7 @@ IF NOT exist "!GIT!" (
     )
     IF NOT exist "vendor\!GIT_INSTALLER!" (
       @echo BitsTransfer also failed... -_-
-      @echo Please download "https://github.com/libroreserve/sync-agent/raw/downloads/vendor/!GIT_INSTALLER!", move it to "c:\libro-sync-agent\vendor\" and relaunch this script.
+      @echo Please download "https://github.com/opentable/libro-sync-agent/raw/refs/heads/downloads/vendor/!GIT_INSTALLER!", move it to "c:\libro-sync-agent\vendor\" and relaunch this script.
       color c
       timeout 3600
       exit /b
@@ -67,13 +67,14 @@ IF NOT exist "!GIT!" (
 @echo Fetching the latest code...
 IF exist .git (
   call "!GIT!" checkout .
-  call "!GIT!" remote set-url origin https://github.com/libroreserve/sync-agent.git
-  call "!GIT!" pull origin master --force
+  call "!GIT!" remote set-url origin https://github.com/opentable/libro-sync-agent.git
+  call "!GIT!" fetch origin main
+  call "!GIT!" checkout -B main origin/main
 ) ELSE (
   call "!GIT!" init
-  call "!GIT!" remote add origin https://github.com/libroreserve/sync-agent.git
-  call "!GIT!" fetch origin master
-  call "!GIT!" reset --hard origin/master
+  call "!GIT!" remote add origin https://github.com/opentable/libro-sync-agent.git
+  call "!GIT!" fetch origin main
+  call "!GIT!" checkout -B main origin/main
   call "!GIT!" config user.email sync-agent@accounts.libroreserve.com
 )
 

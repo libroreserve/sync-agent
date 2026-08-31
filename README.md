@@ -2,7 +2,7 @@
 
 ## Installation
 
-1. [Download the install script (right click + save as...)](https://raw.githubusercontent.com/libroreserve/sync-agent/master/lib/install.bat)
+1. [Download the install script][install-script] (right click + save as...)
 2. Execute the script **as an administrator**
     * Right-click > Run as an administrator
 3. Make sure to fill in the LIBRO_API_TOKEN & RESTAURANT_CODE when prompted
@@ -13,7 +13,8 @@ If the installation worked correctly, you will find *c:\libro-sync-agent\working
 ### If the installation fails
 
 * If c:\libro-sync-agent\vendor dir is empty
-    1. Download Git ([for Windows 32 bit](https://github.com/libroreserve/sync-agent/raw/downloads/vendor/Git-2.20.1-32-bit.exe)) ([for Windows 64 bit](https://github.com/libroreserve/sync-agent/raw/downloads/vendor/Git-2.20.1-64-bit.exe)) and place it in the *vendor* dir
+    1. Download Git ([for Windows 32 bit][git-32])
+       ([for Windows 64 bit][git-64]) and place it in the *vendor* dir
     2. If you're not sure which one to get, download both
     3. Re-execute the install script **as an administrator**
 
@@ -49,12 +50,27 @@ STRIP_INVOICE_DATA | no        | 0                                              
 The *INSTALL* script takes care of upgrading the agent to the latest release and upgrading the Windows service.
 In theory, you shouldn't need to use the *UNINSTALL* & *UPGRADE* scripts but if something fishy happens try:
 
+The *INSTALL* and *UPGRADE* scripts automatically set the checkout's `origin`
+to the canonical OpenTable public repository and update it from `main`. If a
+machine misses the automatic update, run:
+
+```bash
+git remote set-url origin https://github.com/opentable/libro-sync-agent.git
+```
+
 1. Executing the *UNINSTALL* script
 2. Rebooting the machine
 3. Executing the *UPGRADE* script
 4. Executing the *INSTALL* script
 
-If you’re still having issues, [report in a critical issue](https://github.com/libroreserve/sync-agent/issues) and **e-mail us the log file** under `c:\libro-sync-agent\tmp` at admin@libroreserve.com.
+If you’re still having issues, [report in a critical issue][issues] and
+**e-mail us the log file** under `c:\libro-sync-agent\tmp` at
+admin@libroreserve.com.
+
+[install-script]: https://github.com/opentable/libro-sync-agent/raw/refs/heads/main/lib/install.bat
+[git-32]: https://github.com/opentable/libro-sync-agent/raw/refs/heads/downloads/vendor/Git-2.20.1-32-bit.exe
+[git-64]: https://github.com/opentable/libro-sync-agent/raw/refs/heads/downloads/vendor/Git-2.20.1-64-bit.exe
+[issues]: https://github.com/opentable/libro-sync-agent/issues
 
 ## License
 
