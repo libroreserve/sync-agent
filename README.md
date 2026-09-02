@@ -76,7 +76,7 @@ admin@libroreserve.com.
 
 The Libro Sync Agent is open-source software licensed under the highly permissive **MIT License**.
 
-Copyright (C) 2026 Libro
+Copyright (C) 2026 OpenTable
 
 **What this means for you:**
 Because this agent lives on your POS system servers to sync files to our API, we want you to have full visibility into what the code is doing and zero friction when deploying it.
